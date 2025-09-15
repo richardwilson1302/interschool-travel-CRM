@@ -81,12 +81,18 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
     setNewActivity({ type: 'note', description: '' });
   };
 
+  const handleAddActivityClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowForm(!showForm);
+  };
   return (
     <div className="bg-white border border-gray-200 rounded-lg">
       <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
         <h3 className="text-sm font-medium text-gray-900">Activity Log</h3>
         <button
-          onClick={() => setShowForm(!showForm)}
+          type="button"
+          onClick={handleAddActivityClick}
           className="inline-flex items-center px-3 py-1 border border-transparent text-xs font-medium rounded text-blue-600 bg-blue-50 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           <Plus className="h-3 w-3 mr-1" />
@@ -96,7 +102,7 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
 
       {showForm && (
         <div className="px-4 py-3 border-b border-gray-200 bg-gray-50">
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-3">
             <div>
               <select
                 value={newActivity.type}
@@ -130,14 +136,15 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
                 Cancel
               </button>
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={loading || !newActivity.description.trim()}
                 className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 {loading ? 'Adding...' : 'Add Activity'}
               </button>
             </div>
-          </form>
+          </div>
         </div>
       )}
 
