@@ -9,8 +9,14 @@ interface EditBookingFormProps {
   onClose: () => void;
 }
 
+const statusOptions = [
+  { value: 'not_contacted', label: 'Not Contacted', color: 'bg-gray-100 text-gray-800' },
+  { value: 'contacted', label: 'Contacted', color: 'bg-blue-100 text-blue-800' },
+  { value: 'booked', label: 'Booked', color: 'bg-yellow-100 text-yellow-800' },
+  { value: 'paid', label: 'Paid', color: 'bg-green-100 text-green-800' },
+];
 export default function EditBookingForm({ bookingId, onClose }: EditBookingFormProps) {
-  const { bookings, updateBooking, schools, trips, addExcursion, addBookingExcursion, removeBookingExcursion, refreshData } = useData();
+  const { bookings, updateBooking, schools, trips, addExcursion, addBookingExcursion, removeBookingExcursion, updateBookingExcursion, refreshData } = useData();
   const [loading, setLoading] = useState(false);
   const [deletingExcursionId, setDeletingExcursionId] = useState<string | null>(null);
   const [refreshTimestamp, setRefreshTimestamp] = useState(Date.now());
@@ -294,37 +300,13 @@ export default function EditBookingForm({ bookingId, onClose }: EditBookingFormP
                 <h5 className="text-sm font-medium text-gray-700 mb-3">Selected Excursions</h5>
                 <div className="space-y-3" key={`excursions-${refreshTimestamp}-${currentBooking.excursions.length}`}>
                   {currentBooking.excursions.map((bookingExcursion) => (
-                    <div key={bookingExcursion.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900">
-                          {bookingExcursion.excursion?.name || 'Unknown Excursion'}
-                        </div>
-                        <div className="text-sm text-gray-600">
-                          {bookingExcursion.excursion?.supplier?.name && (
-                            <span>Supplier: {bookingExcursion.excursion.supplier.name} • </span>
-                          )}
-                          {bookingExcursion.participant_count} participants • £{bookingExcursion.total_price}
-                        </div>
-                        {bookingExcursion.excursion?.description && (
-                          <div className="text-sm text-gray-500 mt-1">
-                            {bookingExcursion.excursion.description}
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveExcursion(bookingExcursion.id)}
-                        disabled={deletingExcursionId === bookingExcursion.id}
-                        className="ml-3 text-red-600 hover:text-red-800 p-1 disabled:opacity-50"
-                        title="Remove excursion"
-                      >
-                        {deletingExcursionId === bookingExcursion.id ? (
-                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
-                        ) : (
-                          <Trash2 className="h-4 w-4" />
-                        )}
-                      </button>
-                    </div>
+                    <ExcursionStatusCard
+                      key={bookingExcursion.id}
+                      bookingExcursion={bookingExcursion}
+                      onRemove={() => handleRemoveExcursion(bookingExcursion.id)}
+                      onUpdateStatus={updateBookingExcursion}
+                      isDeleting={deletingExcursionId === bookingExcursion.id}
+                    />
                   ))}
                 </div>
               </div>
@@ -368,6 +350,163 @@ export default function EditBookingForm({ bookingId, onClose }: EditBookingFormP
   );
 }
 
+// Excursion Status Card Component
+interface ExcursionStatusCardProps {
+  bookingExcursion: BookingExcursion;
+  onRemove: () => void;
+  onUpdateStatus: (id: string, updates: Partial<BookingExcursion>) => Promise<void>;
+  isDeleting: boolean;
+}
+
+function ExcursionStatusCard({ bookingExcursion, onRemove, onUpdateStatus, isDeleting }: ExcursionStatusCardProps) {
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [showNotesEdit, setShowNotesEdit] = useState(false);
+  const [notes, setNotes] = useState(bookingExcursion.provider_notes || '');
+
+  const currentStatus = statusOptions.find(s => s.value === bookingExcursion.provider_status);
+
+  const handleStatusChange = async (newStatus: string) => {
+    setIsUpdating(true);
+    try {
+      const updates: Partial<BookingExcursion> = {
+        provider_status: newStatus as any,
+        provider_contact_date: newStatus !== 'not_contacted' ? new Date().toISOString() : undefined
+      };
+      await onUpdateStatus(bookingExcursion.id, updates);
+    } catch (error) {
+      console.error('Error updating excursion status:', error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleNotesUpdate = async () => {
+    setIsUpdating(true);
+    try {
+      await onUpdateStatus(bookingExcursion.id, {
+        provider_notes: notes
+      });
+      setShowNotesEdit(false);
+    } catch (error) {
+      console.error('Error updating excursion notes:', error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  return (
+    <div className="p-4 bg-gray-50 rounded-md border border-gray-200">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1">
+          <div className="font-medium text-gray-900 mb-1">
+            {bookingExcursion.excursion?.name || 'Unknown Excursion'}
+          </div>
+          <div className="text-sm text-gray-600 mb-2">
+            {bookingExcursion.excursion?.supplier?.name && (
+              <span>Supplier: {bookingExcursion.excursion.supplier.name} • </span>
+            )}
+            {bookingExcursion.participant_count} participants • £{bookingExcursion.total_price}
+          </div>
+          {bookingExcursion.excursion?.description && (
+            <div className="text-sm text-gray-500 mb-2">
+              {bookingExcursion.excursion.description}
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={onRemove}
+          disabled={isDeleting}
+          className="ml-3 text-red-600 hover:text-red-800 p-1 disabled:opacity-50"
+          title="Remove excursion"
+        >
+          {isDeleting ? (
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600"></div>
+          ) : (
+            <Trash2 className="h-4 w-4" />
+          )}
+        </button>
+      </div>
+
+      {/* Status Section */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center space-x-3">
+          <span className="text-sm font-medium text-gray-700">Status:</span>
+          <select
+            value={bookingExcursion.provider_status}
+            onChange={(e) => handleStatusChange(e.target.value)}
+            disabled={isUpdating}
+            className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50"
+          >
+            {statusOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${currentStatus?.color}`}>
+            {currentStatus?.label}
+          </span>
+        </div>
+        {bookingExcursion.provider_contact_date && (
+          <div className="text-xs text-gray-500">
+            Last contact: {new Date(bookingExcursion.provider_contact_date).toLocaleDateString()}
+          </div>
+        )}
+      </div>
+
+      {/* Notes Section */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-medium text-gray-700">Notes:</span>
+          <button
+            type="button"
+            onClick={() => setShowNotesEdit(!showNotesEdit)}
+            className="text-xs text-blue-600 hover:text-blue-800"
+          >
+            {showNotesEdit ? 'Cancel' : 'Edit Notes'}
+          </button>
+        </div>
+        
+        {showNotesEdit ? (
+          <div className="space-y-2">
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Add notes about provider communication..."
+              className="w-full text-sm border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              rows={3}
+            />
+            <div className="flex justify-end space-x-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowNotesEdit(false);
+                  setNotes(bookingExcursion.provider_notes || '');
+                }}
+                className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleNotesUpdate}
+                disabled={isUpdating}
+                className="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50"
+              >
+                {isUpdating ? 'Saving...' : 'Save Notes'}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="text-sm text-gray-600 bg-white p-2 rounded border min-h-[2rem]">
+            {bookingExcursion.provider_notes || 'No notes added yet'}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 // Manual Excursion Entry Component
 interface ManualExcursionEntryProps {
   onAddExcursion: (excursionData: {
