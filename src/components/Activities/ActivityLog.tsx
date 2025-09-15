@@ -52,6 +52,7 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     if (!newActivity.description.trim() || !user) return;
 
     setLoading(true);
@@ -67,9 +68,17 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
       setShowForm(false);
     } catch (error) {
       console.error('Error adding activity:', error);
+      alert('Error adding activity. Please try again.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCancel = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowForm(false);
+    setNewActivity({ type: 'note', description: '' });
   };
 
   return (
@@ -115,7 +124,7 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
             <div className="flex justify-end space-x-2">
               <button
                 type="button"
-                onClick={() => setShowForm(false)}
+                onClick={handleCancel}
                 className="px-3 py-1 text-xs text-gray-500 hover:text-gray-700"
               >
                 Cancel
