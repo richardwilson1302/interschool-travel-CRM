@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { MapPin, Loader2 } from 'lucide-react';
 import { importEducationalTours } from '../../utils/importTours';
-import { useData } from '../../contexts/DataContext';
+import { useDemoData } from '../../contexts/DemoDataContext';
 
 export default function ImportToursButton() {
   const [importing, setImporting] = useState(false);
   const [result, setResult] = useState<{ success: boolean; count?: number; error?: any } | null>(null);
-  const { refreshData } = useData();
+  const { refreshData } = useDemoData();
 
   const handleImport = async () => {
     setImporting(true);

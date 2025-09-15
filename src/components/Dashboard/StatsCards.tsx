@@ -1,5 +1,5 @@
 import React from 'react';
-import { useData } from '../../contexts/DataContext';
+import { useDemoData } from '../../contexts/DemoDataContext';
 import { 
   School, 
   MapPin, 
@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 export default function StatsCards() {
-  const { schools, trips, bookings } = useData();
+  const { schools, trips, bookings } = useDemoData();
 
   const activeBookings = bookings.filter(b => 
     ['enquiry', 'quoted', 'confirmed', 'paid'].includes(b.status)

@@ -1,10 +1,10 @@
 import React from 'react';
-import { useData } from '../../contexts/DataContext';
+import { useDemoData } from '../../contexts/DemoDataContext';
 import { MapPin, Calendar, Users } from 'lucide-react';
 import { statusColors, statusLabels } from '../../utils/constants';
 
 export default function UpcomingTrips() {
-  const { trips, bookings } = useData();
+  const { trips, bookings } = useDemoData();
 
   const upcomingTrips = trips
     .filter(trip => new Date(trip.departure_date) > new Date())
