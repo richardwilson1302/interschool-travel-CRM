@@ -9,9 +9,9 @@ import type { Booking } from '../../types';
 export default function BookingsList() {
   const { bookings, loading } = useData();
   const [showForm, setShowForm] = useState(false);
-  const [editingBookingId, setEditingBookingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [editingBookingId, setEditingBookingId] = useState<string | null>(null);
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = 
@@ -107,22 +107,18 @@ export default function BookingsList() {
             <div key={booking.id} className="bg-white shadow rounded-lg p-6 hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <button
+                    onClick={() => setEditingBookingId(booking.id)}
+                    className="text-lg font-semibold text-blue-600 hover:text-blue-800 hover:underline cursor-pointer text-left"
+                  >
                     {booking.school?.name || 'Unknown School'}
-                  </h3>
+                  </button>
                   <div className="flex items-center mt-1 text-sm text-gray-600">
                     <MapPin className="h-4 w-4 mr-1" />
                     {booking.trip?.destination || 'Unknown Destination'}
                   </div>
                 </div>
                 <div className="flex items-start space-x-2">
-                  <button
-                    onClick={() => setEditingBookingId(booking.id)}
-                    className="text-gray-400 hover:text-blue-600 p-1"
-                    title="Edit booking"
-                  >
-                    <Edit className="h-4 w-4" />
-                  </button>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[booking.status]}`}>
                     {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                   </span>
