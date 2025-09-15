@@ -1,13 +1,13 @@
 import React from 'react';
 import { Menu, Bell, User } from 'lucide-react';
-import { useDemoAuth } from '../../contexts/DemoAuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface HeaderProps {
   setSidebarOpen: (open: boolean) => void;
 }
 
 export default function Header({ setSidebarOpen }: HeaderProps) {
-  const { signOut, user } = useDemoAuth();
+  const { signOut, user } = useAuth();
 
   return (
     <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
@@ -21,7 +21,7 @@ export default function Header({ setSidebarOpen }: HeaderProps) {
       <div className="flex-1 px-4 flex justify-between items-center">
         <div className="flex-1 flex">
           <h1 className="text-lg font-semibold text-gray-900">
-            Interschool Travel CRM (Demo)
+            Interschool Travel CRM
           </h1>
         </div>
         <div className="ml-4 flex items-center space-x-4">

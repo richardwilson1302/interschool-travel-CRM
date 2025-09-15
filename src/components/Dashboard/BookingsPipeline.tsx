@@ -1,10 +1,10 @@
 import React from 'react';
-import { useDemoData } from '../../contexts/DemoDataContext';
+import { useData } from '../../contexts/DataContext';
 import { pipelineStatusConfig } from '../../utils/constants';
 import type { BookingStatus } from '../../types';
 
 export default function BookingsPipeline() {
-  const { bookings } = useDemoData();
+  const { bookings } = useData();
 
   const statusCounts = Object.keys(pipelineStatusConfig).reduce((acc, status) => {
     acc[status as BookingStatus] = bookings.filter(b => b.status === status).length;

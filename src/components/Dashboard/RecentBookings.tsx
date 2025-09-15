@@ -1,12 +1,12 @@
 import React from 'react';
-import { useDemoData } from '../../contexts/DemoDataContext';
+import { useData } from '../../contexts/DataContext';
 import { Calendar, Users, Phone, Mail, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
 import ExcursionStatus from './ExcursionStatus';
 import EditBookingForm from '../Forms/EditBookingForm';
 import { statusColors } from '../../utils/constants';
 
 export default function RecentBookings() {
-  const { bookings } = useDemoData();
+  const { bookings } = useData();
   const [expandedBookings, setExpandedBookings] = React.useState<Set<string>>(new Set());
   const [editingBookingId, setEditingBookingId] = React.useState<string | null>(null);
 
