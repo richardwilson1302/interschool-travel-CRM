@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from './lib/supabase';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { DataProvider } from './contexts/DataContext';
+import { DemoAuthProvider, useDemoAuth } from './contexts/DemoAuthContext';
+import { DemoDataProvider, useDemoData } from './contexts/DemoDataContext';
 import Login from './components/Auth/Login';
 import Dashboard from './components/Dashboard/Dashboard';
 import Layout from './components/Layout/Layout';
+import DemoNotice from './components/Common/DemoNotice';
 
 function AppContent() {
-  const { user, loading } = useAuth();
+  const { user, loading } = useDemoAuth();
 
   if (loading) {
     return (
@@ -22,19 +22,20 @@ function AppContent() {
   }
 
   return (
-    <DataProvider>
+    <DemoDataProvider>
+      <DemoNotice />
       <Layout>
         <Dashboard />
       </Layout>
-    </DataProvider>
+    </DemoDataProvider>
   );
 }
 
 function App() {
   return (
-    <AuthProvider>
+    <DemoAuthProvider>
       <AppContent />
-    </AuthProvider>
+    </DemoAuthProvider>
   );
 }
 

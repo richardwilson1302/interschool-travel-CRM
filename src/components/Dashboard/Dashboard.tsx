@@ -1,5 +1,5 @@
 import React from 'react';
-import { useData } from '../../contexts/DataContext';
+import { useDemoData } from '../../contexts/DemoDataContext';
 import StatsCards from './StatsCards';
 import RecentBookings from './RecentBookings';
 import BookingsPipeline from './BookingsPipeline';
@@ -7,7 +7,7 @@ import UpcomingTrips from './UpcomingTrips';
 import WelcomeSection from './WelcomeSection';
 
 export default function Dashboard() {
-  const { loading } = useData();
+  const { loading } = useDemoData();
 
   if (loading) {
     return (
@@ -20,9 +20,9 @@ export default function Dashboard() {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Dashboard (Demo)</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Welcome back! Here's what's happening with your educational tours.
+          Welcome to the demo! Here's what's happening with your educational tours.
         </p>
       </div>
 

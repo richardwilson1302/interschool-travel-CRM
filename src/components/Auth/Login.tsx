@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useDemoAuth } from '../../contexts/DemoAuthContext';
 import { GraduationCap, Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp } = useDemoAuth();
   const [isSignUp, setIsSignUp] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('demo@interschooltravel.com');
+  const [password, setPassword] = useState('demo123');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,6 +32,16 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h3 className="text-sm font-medium text-blue-900 mb-2">🚀 Demo Mode</h3>
+          <p className="text-sm text-blue-800 mb-2">
+            This is a demonstration version with sample data. No real database connection required!
+          </p>
+          <p className="text-xs text-blue-700">
+            Pre-filled credentials: <strong>demo@interschooltravel.com</strong> / <strong>demo123</strong>
+          </p>
+        </div>
+        
         <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
             <GraduationCap className="h-8 w-8 text-white" />
@@ -40,7 +50,7 @@ export default function Login() {
             Interschool Travel CRM
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            {isSignUp ? 'Create your account' : 'Sign in to your account'}
+            {isSignUp ? 'Create demo account' : 'Sign in to demo'}
           </p>
         </div>
 
@@ -105,7 +115,7 @@ export default function Login() {
               disabled={loading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Loading...' : (isSignUp ? 'Create Account' : 'Sign In')}
+              {loading ? 'Loading...' : (isSignUp ? 'Create Demo Account' : 'Sign In to Demo')}
             </button>
           </div>
 
@@ -116,8 +126,8 @@ export default function Login() {
               className="text-sm text-blue-600 hover:text-blue-500"
             >
               {isSignUp 
-                ? 'Already have an account? Sign in' 
-                : "Don't have an account? Sign up"
+                ? 'Back to demo sign in' 
+                : "Try demo sign up instead"
               }
             </button>
           </div>
