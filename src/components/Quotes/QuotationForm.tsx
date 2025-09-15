@@ -4,6 +4,7 @@ import { Calendar, MapPin, Users, Calculator, Plus, Trash2, FileText, CheckCircl
 interface CostItem {
   id: string;
   description: string;
+  estimatedPricePerUnit: number;
   pricePerUnit: number;
   unit: string;
   quantityRequired: number;
@@ -56,6 +57,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-1',
       description: 'Flights',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -66,6 +68,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-2',
       description: 'Coach Costs',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -76,6 +79,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-3',
       description: 'Train Cost Students',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
       quantityRequired: 0,
@@ -86,6 +90,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-4',
       description: 'Train Cost Adults',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
       quantityRequired: 0,
@@ -96,6 +101,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-5',
       description: 'UK Airport Transfers',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
       quantityRequired: 0,
@@ -106,6 +112,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-6',
       description: 'Ferry Per Crossing',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
       quantityRequired: 0,
@@ -116,6 +123,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-7',
       description: 'TOMS',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Group',
       quantityRequired: 0,
@@ -126,6 +134,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-8',
       description: 'Insurance Students',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -136,6 +145,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-9',
       description: 'Insurance Adults',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -146,6 +156,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-10',
       description: 'Rep Flight',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -156,6 +167,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-11',
       description: 'Rep Wages',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -166,6 +178,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-12',
       description: 'Accommodation',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -176,6 +189,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-13',
       description: 'Breakfast',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -186,6 +200,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-14',
       description: 'Lunch',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -196,6 +211,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-15',
       description: 'Dinner',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -206,6 +222,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-16',
       description: 'Tourist Tax Student',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -216,6 +233,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-17',
       description: 'Tourist Tax Adult',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -226,6 +244,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     {
       id: 'fixed-18',
       description: 'Local Coach',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -236,6 +255,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
      {
       id: 'fixed-19',
       description: 'Public Transport',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -246,6 +266,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
      {
       id: 'fixed-20',
       description: 'Airport Transfer',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -256,6 +277,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
      {
       id: 'fixed-21',
       description: 'Rep Accommodation',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -266,6 +288,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
      {
       id: 'fixed-22',
       description: 'UK Driver Accommodation',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -276,6 +299,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
      {
       id: 'fixed-23',
       description: 'Local Guide',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -358,6 +382,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     const newItem: CostItem = {
       id: Date.now().toString(),
       description: '',
+      estimatedPricePerUnit: 0,
       pricePerUnit: 0,
       unit: 'Per Person',
       quantityRequired: 0,
@@ -640,7 +665,8 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Item Description</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Price Per Unit (£)</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Estimated Price Per Unit (£)</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Actual Price Per Unit (£)</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Unit</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Qty Required</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Days Required</th>
@@ -665,6 +691,16 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                           placeholder="e.g., Flight, Coach, Entrance"
                         />
                       )}
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <input
+                        type="number"
+                        value={item.estimatedPricePerUnit}
+                        onChange={(e) => updateCostItem(item.id, 'estimatedPricePerUnit', parseFloat(e.target.value) || 0)}
+                        className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        step="0.01"
+                        min="0"
+                      />
                     </td>
                     <td className="px-4 py-3 border-b">
                       <input
