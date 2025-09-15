@@ -6,8 +6,7 @@ interface CostItem {
   description: string;
   pricePerUnit: number;
   unit: string;
-  quantityStudents: number;
-  quantityAdults: number;
+  quantityRequired: number;
   daysRequired: number;
   subtotal: number;
   isFixed?: boolean;
@@ -59,8 +58,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Flights',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -70,8 +68,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Coach Costs',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -81,8 +78,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Train Cost Students',
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -92,8 +88,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Train Cost Adults',
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -103,8 +98,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'UK Airport Transfers',
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -114,8 +108,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Ferry Per Crossing',
       pricePerUnit: 0,
       unit: 'Per Person Per Day',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -125,8 +118,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'TOMS',
       pricePerUnit: 0,
       unit: 'Per Group',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -136,8 +128,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Insurance Students',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -147,8 +138,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Insurance Adults',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -158,8 +148,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Rep Flight',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -169,8 +158,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Rep Wages',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -180,8 +168,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Accommodation',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -191,8 +178,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Breakfast',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -202,8 +188,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Lunch',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true 
@@ -213,8 +198,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Dinner',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -224,8 +208,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Tourist Tax Student',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -235,8 +218,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Tourist Tax Adult',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -246,8 +228,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Local Coach',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -257,8 +238,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Public Transport',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -268,8 +248,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Airport Transfer',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -279,8 +258,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Rep Accommodation',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -290,8 +268,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'UK Driver Accommodation',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -301,8 +278,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: 'Local Guide',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0,
       isFixed: true
@@ -348,7 +324,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     if (item.id === 'fixed-12' && item.manualSubtotal !== undefined) {
       return item.manualSubtotal;
     }
-    return item.pricePerUnit * (item.quantityStudents + item.quantityAdults) * item.daysRequired;
+    return item.pricePerUnit * item.quantityRequired * item.daysRequired;
   };
 
   // Update cost item
@@ -363,7 +339,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
           if (id === 'fixed-12') {
             if (field === 'subtotal') {
               updatedItem.manualSubtotal = typeof value === 'number' ? value : parseFloat(value as string) || 0;
-            } else if (field === 'pricePerUnit' || field === 'quantityStudents' || field === 'quantityAdults' || field === 'daysRequired') {
+            } else if (field === 'pricePerUnit' || field === 'quantityRequired' || field === 'daysRequired') {
               // Reset manual subtotal when other fields are changed
               updatedItem.manualSubtotal = undefined;
             }
@@ -384,8 +360,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       description: '',
       pricePerUnit: 0,
       unit: 'Per Person',
-      quantityStudents: 0,
-      quantityAdults: 0,
+      quantityRequired: 0,
       daysRequired: 1,
       subtotal: 0
     };
@@ -667,8 +642,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Item Description</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Price Per Unit (£)</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Unit</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Qty Students</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Qty Adults</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Qty Required</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Days Required</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Subtotal (£)</th>
                   <th className="px-4 py-3 text-center text-sm font-medium text-gray-700 border-b">Actions</th>
@@ -722,17 +696,8 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                     <td className="px-4 py-3 border-b">
                       <input
                         type="number"
-                        value={item.quantityStudents}
-                        onChange={(e) => updateCostItem(item.id, 'quantityStudents', parseInt(e.target.value) || 0)}
-                        className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="0"
-                      />
-                    </td>
-                    <td className="px-4 py-3 border-b">
-                      <input
-                        type="number"
-                        value={item.quantityAdults}
-                        onChange={(e) => updateCostItem(item.id, 'quantityAdults', parseInt(e.target.value) || 0)}
+                        value={item.quantityRequired}
+                        onChange={(e) => updateCostItem(item.id, 'quantityRequired', parseInt(e.target.value) || 0)}
                         className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         min="0"
                       />
