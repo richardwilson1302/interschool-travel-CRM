@@ -24,6 +24,9 @@ export default function UpcomingTrips() {
           <div className="space-y-4">
             {upcomingTrips.map((trip) => {
               const tripBookings = bookings.filter(booking => booking.trip_id === trip.id);
+              const activeBookings = tripBookings.filter(booking => 
+                booking.status !== 'quote_lost' && booking.status !== 'cancelled'
+              );
               
               return (
                 <div key={trip.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
@@ -53,13 +56,13 @@ export default function UpcomingTrips() {
                   </div>
                 </div>
                 
-                {tripBookings.length > 0 && (
+                {activeBookings.length > 0 && (
                   <div className="mt-4 pt-4 border-t border-gray-200">
                     <h5 className="text-xs font-medium text-gray-700 mb-2">
-                      Bookings ({tripBookings.length})
+                      Bookings ({activeBookings.length})
                     </h5>
                     <div className="space-y-2">
-                      {tripBookings.slice(0, 3).map((booking) => (
+                      {activeBookings.slice(0, 3).map((booking) => (
                         <div key={booking.id} className="flex items-center justify-between text-xs">
                           <span className="text-gray-600 truncate mr-2">
                             {booking.school?.name || 'Unknown School'}
@@ -69,9 +72,9 @@ export default function UpcomingTrips() {
                           </span>
                         </div>
                       ))}
-                      {tripBookings.length > 3 && (
+                      {activeBookings.length > 3 && (
                         <div className="text-xs text-gray-500">
-                          +{tripBookings.length - 3} more bookings
+                          +{activeBookings.length - 3} more bookings
                         </div>
                       )}
                     </div>
