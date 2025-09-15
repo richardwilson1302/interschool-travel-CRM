@@ -23,10 +23,12 @@ interface FormData {
   board: string;
   dateOutUK: string;
   dateBackUK: string;
+  numberOfDays: number;
+  numberOfNights: number;
   pax: number;
   freePlaces: number;
   exchangeRate: number;
-  markup: number;
+  markupAmount: number;
   
   // Cost breakdown
   costItems: CostItem[];
@@ -43,8 +45,7 @@ interface FormData {
   gbpAmount: number;
   
   // Free place calculation
-  freePlaceRatio: string;
-  calculatedFreePlaces: number;
+  istStaffQty: number;
 }
 
 interface QuotationFormProps {
@@ -317,10 +318,12 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     board: '',
     dateOutUK: '',
     dateBackUK: '',
+    numberOfDays: 0,
+    numberOfNights: 0,
     pax: 0,
     freePlaces: 0,
-    exchangeRate: 0.85,
-    markup: 0,
+    exchangeRate: 1.18,
+    markupAmount: 0,
     costItems: predefinedCostItems,
     totalCost: 0,
     netTotal: 0,
@@ -329,8 +332,7 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
     profitPerHead: 0,
     euroAmount: 0,
     gbpAmount: 0,
-    freePlaceRatio: '1:10',
-    calculatedFreePlaces: 0
+    istStaffQty: 0
   });
 
   const unitOptions = [
@@ -411,10 +413,10 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
   // Calculate totals
   useEffect(() => {
     const totalCost = formData.costItems.reduce((sum, item) => sum + item.subtotal, 0);
-    const netTotal = totalCost * (1 + formData.markup / 100);
+    const netTotal = totalCost + formData.markupAmount;
     const profit = netTotal - totalCost;
     const pricePerPerson = formData.pax > 0 ? netTotal / formData.pax : 0;
-    const fullPayingPax = formData.pax - formData.calculatedFreePlaces;
+    const fullPayingPax = formData.pax - formData.istStaffQty;
     const profitPerHead = fullPayingPax > 0 ? profit / fullPayingPax : 0;
 
     setFormData(prev => ({
@@ -425,32 +427,36 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
       pricePerPerson,
       profitPerHead
     }));
-  }, [formData.costItems, formData.markup, formData.pax, formData.calculatedFreePlaces]);
+  }, [formData.costItems, formData.markupAmount, formData.pax, formData.istStaffQty]);
 
-  // Calculate GBP amount from EUR
+  // Calculate EUR amount from GBP
   useEffect(() => {
-    const gbpAmount = formData.euroAmount * formData.exchangeRate;
+    const euroAmount = formData.gbpAmount * formData.exchangeRate;
     setFormData(prev => ({
       ...prev,
-      gbpAmount: Math.round(gbpAmount * 100) / 100
+      euroAmount: Math.round(euroAmount * 100) / 100
     }));
-  }, [formData.euroAmount, formData.exchangeRate]);
+  }, [formData.gbpAmount, formData.exchangeRate]);
 
-  // Calculate free places
+  // Calculate days and nights from dates
   useEffect(() => {
-    if (formData.freePlaceRatio && formData.pax > 0) {
-      const ratio = formData.freePlaceRatio.split(':');
-      if (ratio.length === 2) {
-        const freePlaceNum = parseInt(ratio[0]);
-        const studentNum = parseInt(ratio[1]);
-        const calculatedFreePlaces = Math.floor(formData.pax / studentNum) * freePlaceNum;
+    if (formData.dateOutUK && formData.dateBackUK) {
+      const outDate = new Date(formData.dateOutUK);
+      const backDate = new Date(formData.dateBackUK);
+      
+      if (backDate > outDate) {
+        const timeDiff = backDate.getTime() - outDate.getTime();
+        const numberOfDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1; // +1 to include departure day
+        const numberOfNights = numberOfDays - 1;
+        
         setFormData(prev => ({
           ...prev,
-          calculatedFreePlaces
+          numberOfDays,
+          numberOfNights
         }));
       }
     }
-  }, [formData.freePlaceRatio, formData.pax]);
+  }, [formData.dateOutUK, formData.dateBackUK]);
 
   const handleInputChange = (field: keyof FormData, value: string | number) => {
     setFormData(prev => ({
@@ -605,7 +611,21 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">X/R (EUR to GBP)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Number of Days</label>
+              <div className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md text-gray-900 font-medium">
+                {formData.numberOfDays || 0} days
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Number of Nights</label>
+              <div className="w-full p-3 bg-gray-100 border border-gray-300 rounded-md text-gray-900 font-medium">
+                {formData.numberOfNights || 0} nights
+              </div>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">X/R (GBP to EUR)</label>
               <input
                 type="number"
                 value={formData.exchangeRate}
@@ -613,31 +633,32 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 step="0.01"
                 min="0"
-                placeholder="0.85"
+                placeholder="1.18"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Markup (%)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Markup (£)</label>
               <input
                 type="number"
-                value={formData.markup}
-                onChange={(e) => handleInputChange('markup', parseFloat(e.target.value) || 0)}
+                value={formData.markupAmount}
+                onChange={(e) => handleInputChange('markupAmount', parseFloat(e.target.value) || 0)}
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                step="0.1"
+                step="0.01"
                 min="0"
-                placeholder="15"
+                placeholder="500"
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Free Place Ratio</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">IST Staff QTY</label>
               <input
-                type="text"
-                value={formData.freePlaceRatio}
-                onChange={(e) => handleInputChange('freePlaceRatio', e.target.value)}
+                type="number"
+                value={formData.istStaffQty}
+                onChange={(e) => handleInputChange('istStaffQty', parseInt(e.target.value) || 0)}
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="1:10"
+                min="0"
+                placeholder="2"
               />
             </div>
           </div>
@@ -666,8 +687,8 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                 <tr>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Item Description</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Estimated Price Per Unit (£)</th>
+                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Estimated Price Per Unit (£)</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Actual Price Per Unit (£)</th>
-                  <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Unit</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Qty Required</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Days Required</th>
                   <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 border-b">Subtotal (£)</th>
@@ -691,6 +712,16 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                           placeholder="e.g., Flight, Coach, Entrance"
                         />
                       )}
+                    </td>
+                    <td className="px-4 py-3 border-b">
+                      <input
+                        type="number"
+                        value={item.estimatedPricePerUnit}
+                        onChange={(e) => updateCostItem(item.id, 'estimatedPricePerUnit', parseFloat(e.target.value) || 0)}
+                        className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        step="0.01"
+                        min="0"
+                      />
                     </td>
                     <td className="px-4 py-3 border-b">
                       <input
@@ -734,15 +765,6 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
                         type="number"
                         value={item.quantityRequired}
                         onChange={(e) => updateCostItem(item.id, 'quantityRequired', parseInt(e.target.value) || 0)}
-                        className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                        min="0"
-                      />
-                    </td>
-                    <td className="px-4 py-3 border-b">
-                      <input
-                        type="number"
-                        value={item.daysRequired}
-                        onChange={(e) => updateCostItem(item.id, 'daysRequired', parseInt(e.target.value) || 1)}
                         className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-transparent"
                         min="1"
                       />
@@ -844,11 +866,11 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-4 rounded-lg border border-purple-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Amount in Euros (€)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Amount in Pounds (£)</label>
               <input
                 type="number"
-                value={formData.euroAmount}
-                onChange={(e) => handleInputChange('euroAmount', parseFloat(e.target.value) || 0)}
+                value={formData.gbpAmount}
+                onChange={(e) => handleInputChange('gbpAmount', parseFloat(e.target.value) || 0)}
                 className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 step="0.01"
                 min="0"
@@ -857,16 +879,16 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
             </div>
             
             <div className="bg-white p-4 rounded-lg border border-purple-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Exchange Rate (EUR to GBP)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Exchange Rate (GBP to EUR)</label>
               <div className="text-lg font-semibold text-gray-900 p-3 bg-gray-50 rounded-md">
                 {formData.exchangeRate}
               </div>
             </div>
             
             <div className="bg-white p-4 rounded-lg border border-purple-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Amount in Pounds (£)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Amount in Euros (€)</label>
               <div className="text-lg font-semibold text-purple-600 p-3 bg-gray-50 rounded-md">
-                £{formData.gbpAmount.toLocaleString('en-GB', { minimumFractionDigits: 2 })}
+                €{formData.euroAmount.toLocaleString('en-GB', { minimumFractionDigits: 2 })}
               </div>
             </div>
           </div>
@@ -885,8 +907,8 @@ const QuotationForm: React.FC<QuotationFormProps> = ({ onClose }) => {
               <div className="text-xl font-bold text-gray-900">{formData.pax}</div>
             </div>
             <div className="text-center">
-              <div className="text-sm text-gray-600">Free Places</div>
-              <div className="text-xl font-bold text-green-600">{formData.calculatedFreePlaces}</div>
+              <div className="text-sm text-gray-600">IST Staff</div>
+              <div className="text-xl font-bold text-green-600">{formData.istStaffQty}</div>
             </div>
             <div className="text-center">
               <div className="text-sm text-gray-600">Net Total</div>
