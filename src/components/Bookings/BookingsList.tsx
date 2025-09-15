@@ -132,7 +132,6 @@ export default function BookingsList() {
                     <span>{booking.participant_count} participants</span>
                   </div>
                   <div className="flex items-center text-gray-900 font-semibold">
-                    <DollarSign className="h-4 w-4 mr-1" />
                     <span>£{booking.total_price.toLocaleString()}</span>
                   </div>
                 </div>
