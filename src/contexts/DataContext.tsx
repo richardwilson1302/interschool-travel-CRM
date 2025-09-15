@@ -104,7 +104,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       const bookingsWithExcursions = bookingsResponse.data.map(booking => ({
         ...booking,
         excursions: bookingExcursionsResponse.data?.filter(be => be.booking_id === booking.id) || []
-      }));
+      })).sort((a, b) => {
+        // Sort by trip departure date, soonest first
+        const dateA = a.trip?.departure_date ? new Date(a.trip.departure_date).getTime() : 0;
+        const dateB = b.trip?.departure_date ? new Date(b.trip.departure_date).getTime() : 0;
+        return dateA - dateB;
+      });
       
       console.log('Bookings with excursions after mapping:', bookingsWithExcursions.map(b => ({ 
         id: b.id, 
