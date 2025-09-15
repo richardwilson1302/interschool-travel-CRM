@@ -238,11 +238,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const addActivity = async (activityData: Omit<Activity, 'id' | 'created_at'>) => {
     const { error } = await supabase.from('activities').insert([activityData]);
     if (error) throw error;
-    // Only refresh activities, not all data to prevent form closing
-    const { data: newActivities } = await supabase.from('activities').select('*').order('created_at', { ascending: false });
-    if (newActivities) {
-      setActivities(newActivities);
-    }
+    
+    // Add the new activity to the local state without refreshing from database
+    const newActivity: Activity = {
+      id: `temp-${Date.now()}`, // Temporary ID
+      ...activityData,
+      created_at: new Date().toISOString()
+    };
+    
+    setActivities(prev => [newActivity, ...prev]);
   };
 
   return (

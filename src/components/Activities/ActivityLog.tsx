@@ -66,15 +66,7 @@ export default function ActivityLog({ bookingId }: ActivityLogProps) {
       setNewActivity({ type: 'note', description: '' });
       setShowForm(false);
     } catch (error) {
-    
-    // Add the new activity to the local state without refreshing from database
-    const newActivity: Activity = {
-      id: `temp-${Date.now()}`, // Temporary ID
-      ...activityData,
-      created_at: new Date().toISOString()
-    };
-    
-    setActivities(prev => [newActivity, ...prev]);
+      console.error('Error adding activity:', error);
     } finally {
       setLoading(false);
     }
