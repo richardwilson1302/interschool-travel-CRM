@@ -2,11 +2,13 @@ import React from 'react';
 import { useData } from '../../contexts/DataContext';
 import { Calendar, Users, Phone, Mail, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
 import ExcursionStatus from './ExcursionStatus';
+import EditBookingForm from '../Forms/EditBookingForm';
 import { statusColors } from '../../utils/constants';
 
 export default function RecentBookings() {
   const { bookings } = useData();
   const [expandedBookings, setExpandedBookings] = React.useState<Set<string>>(new Set());
+  const [editingBookingId, setEditingBookingId] = React.useState<string | null>(null);
 
   const recentBookings = bookings.slice(0, 8);
 
@@ -63,9 +65,12 @@ export default function RecentBookings() {
                     <tr className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">
+                        <button
+                          onClick={() => setEditingBookingId(booking.id)}
+                          className="text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline cursor-pointer text-left"
+                        >
                           {booking.school?.name || 'Unknown School'}
-                        </div>
+                        </button>
                         <div className="text-sm text-gray-500 flex items-center">
                           <MapPin className="h-3 w-3 mr-1" />
                           {booking.trip?.destination || 'Unknown Trip'}
@@ -138,6 +143,13 @@ export default function RecentBookings() {
           </div>
         )}
       </div>
+      
+      {editingBookingId && (
+        <EditBookingForm 
+          bookingId={editingBookingId} 
+          onClose={() => setEditingBookingId(null)} 
+        />
+      )}
     </div>
   );
 }
