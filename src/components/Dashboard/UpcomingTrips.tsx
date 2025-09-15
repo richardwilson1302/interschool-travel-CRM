@@ -1,0 +1,58 @@
+import React from 'react';
+import { useData } from '../../contexts/DataContext';
+import { MapPin, Calendar, Users } from 'lucide-react';
+
+export default function UpcomingTrips() {
+  const { trips } = useData();
+
+  const upcomingTrips = trips
+    .filter(trip => new Date(trip.departure_date) > new Date())
+    .sort((a, b) => new Date(a.departure_date).getTime() - new Date(b.departure_date).getTime())
+    .slice(0, 5);
+
+  return (
+    <div className="bg-white shadow rounded-lg">
+      <div className="px-6 py-4 border-b border-gray-200">
+        <h3 className="text-lg font-medium text-gray-900">Upcoming Tours</h3>
+        <p className="mt-1 text-sm text-gray-500">Next departures and availability</p>
+      </div>
+      <div className="p-6">
+        {upcomingTrips.length === 0 ? (
+          <p className="text-gray-500 text-center py-4">No upcoming tours scheduled</p>
+        ) : (
+          <div className="space-y-4">
+            {upcomingTrips.map((trip) => (
+              <div key={trip.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <h4 className="text-sm font-semibold text-gray-900">{trip.title}</h4>
+                    <div className="mt-2 space-y-1">
+                      <div className="flex items-center text-xs text-gray-500">
+                        <MapPin className="h-3 w-3 mr-1" />
+                        {trip.destination}
+                      </div>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {new Date(trip.departure_date).toLocaleDateString()}
+                      </div>
+                      <div className="flex items-center text-xs text-gray-500">
+                        <Users className="h-3 w-3 mr-1" />
+                        Max {trip.max_participants} participants
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-semibold text-gray-900">
+                      £{trip.base_price}
+                    </div>
+                    <div className="text-xs text-gray-500">per person</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
