@@ -1,9 +1,10 @@
 import React from 'react';
 import { useData } from '../../contexts/DataContext';
 import { MapPin, Calendar, Users } from 'lucide-react';
+import { statusColors, statusLabels } from '../../utils/constants';
 
 export default function UpcomingTrips() {
-  const { trips } = useData();
+  const { trips, bookings } = useData();
 
   const upcomingTrips = trips
     .filter(trip => new Date(trip.departure_date) > new Date())
@@ -21,8 +22,11 @@ export default function UpcomingTrips() {
           <p className="text-gray-500 text-center py-4">No upcoming tours scheduled</p>
         ) : (
           <div className="space-y-4">
-            {upcomingTrips.map((trip) => (
-              <div key={trip.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+            {upcomingTrips.map((trip) => {
+              const tripBookings = bookings.filter(booking => booking.trip_id === trip.id);
+              
+              return (
+                <div key={trip.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <h4 className="text-sm font-semibold text-gray-900">{trip.title}</h4>
@@ -48,8 +52,34 @@ export default function UpcomingTrips() {
                     <div className="text-xs text-gray-500">per person</div>
                   </div>
                 </div>
+                
+                {tripBookings.length > 0 && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <h5 className="text-xs font-medium text-gray-700 mb-2">
+                      Bookings ({tripBookings.length})
+                    </h5>
+                    <div className="space-y-2">
+                      {tripBookings.slice(0, 3).map((booking) => (
+                        <div key={booking.id} className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600 truncate mr-2">
+                            {booking.school?.name || 'Unknown School'}
+                          </span>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[booking.status]}`}>
+                            {statusLabels[booking.status]}
+                          </span>
+                        </div>
+                      ))}
+                      {tripBookings.length > 3 && (
+                        <div className="text-xs text-gray-500">
+                          +{tripBookings.length - 3} more bookings
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

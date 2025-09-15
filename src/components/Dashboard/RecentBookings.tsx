@@ -2,17 +2,7 @@ import React from 'react';
 import { useData } from '../../contexts/DataContext';
 import { Calendar, Users, Phone, Mail, MapPin, ChevronDown, ChevronRight } from 'lucide-react';
 import ExcursionStatus from './ExcursionStatus';
-
-const statusColors = {
-  enquiry: 'bg-gray-100 text-gray-800',
-  quoted: 'bg-blue-100 text-blue-800',
-  quote_follow_up: 'bg-yellow-100 text-yellow-800',
-  quote_lost: 'bg-red-100 text-red-800',
-  confirmed: 'bg-yellow-100 text-yellow-800',
-  paid: 'bg-green-100 text-green-800',
-  completed: 'bg-emerald-100 text-emerald-800',
-  cancelled: 'bg-red-100 text-red-800',
-};
+import { statusColors } from '../../utils/constants';
 
 export default function RecentBookings() {
   const { bookings } = useData();

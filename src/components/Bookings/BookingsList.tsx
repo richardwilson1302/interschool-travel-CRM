@@ -3,17 +3,8 @@ import { useData } from '../../contexts/DataContext';
 import { Calendar, Users, Phone, Mail, MapPin, Plus, Search, DollarSign, Edit } from 'lucide-react';
 import BookingForm from '../Forms/BookingForm';
 import EditBookingForm from '../Forms/EditBookingForm';
+import { statusColors } from '../../utils/constants';
 import type { Booking } from '../../types';
-
-const statusColors = {
-  enquiry: 'bg-gray-100 text-gray-800',
-  quoted: 'bg-blue-100 text-blue-800',
-  quote_follow_up: 'bg-yellow-100 text-yellow-800',
-  confirmed: 'bg-yellow-100 text-yellow-800',
-  paid: 'bg-green-100 text-green-800',
-  completed: 'bg-emerald-100 text-emerald-800',
-  cancelled: 'bg-red-100 text-red-800',
-};
 
 export default function BookingsList() {
   const { bookings, loading } = useData();
