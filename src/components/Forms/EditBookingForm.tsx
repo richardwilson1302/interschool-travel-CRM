@@ -205,8 +205,8 @@ export default function EditBookingForm({ bookingId, onClose }: EditBookingFormP
                 <option value="quoted">Quoted</option>
                 <option value="quote_follow_up">Quote Follow Up</option>
                 <option value="quote_lost">Quote Lost</option>
-                <option value="Provisional">Provisional</option>
-                <option value="Booked">Booked</option>
+                <option value="confirmed">Provisional</option>
+                <option value="paid">Booked</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
               </select>

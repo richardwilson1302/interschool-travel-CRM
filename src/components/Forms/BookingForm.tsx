@@ -118,7 +118,7 @@ export default function BookingForm({ onClose }: BookingFormProps) {
                 <option value="quoted">Quoted</option>
                 <option value="quote_follow_up">Quote Follow Up</option>
                 <option value="quote_lost">Quote Lost</option>
-                <option value="confirmed">Provsioanl</option>
+                <option value="confirmed">Provisional</option>
                 <option value="paid">Booked</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>
