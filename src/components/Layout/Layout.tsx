@@ -5,6 +5,7 @@ import SchoolsList from '../Schools/SchoolsList';
 import TripsList from '../Trips/TripsList';
 import BookingsList from '../Bookings/BookingsList';
 import SuppliersList from '../Suppliers/SuppliersList';
+import QuotesPage from '../Quotes/QuotesPage';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -22,6 +23,8 @@ export default function Layout({ children }: LayoutProps) {
         return <TripsList />;
       case 'bookings':
         return <BookingsList />;
+      case 'quotes':
+        return <QuotesPage />;
       case 'suppliers':
         return <SuppliersList />;
       default:

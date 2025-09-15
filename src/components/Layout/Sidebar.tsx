@@ -8,7 +8,8 @@ import {
   Activity,
   Building2,
   X,
-  GraduationCap
+  GraduationCap,
+  FileText
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -23,6 +24,7 @@ const navigation = [
   { name: 'Schools', icon: School, key: 'schools' },
   { name: 'Tours', icon: MapPin, key: 'trips' },
   { name: 'Bookings', icon: Calendar, key: 'bookings' },
+  { name: 'Quotes', icon: FileText, key: 'quotes' },
   { name: 'Suppliers', icon: Building2, key: 'suppliers' },
   { name: 'Contacts', icon: Users, key: 'contacts' },
   { name: 'Activities', icon: Activity, key: 'activities' },
