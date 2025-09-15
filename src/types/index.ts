@@ -28,7 +28,7 @@ export type Trip = {
   updated_at: string;
 };
 
-export type BookingStatus = 'enquiry' | 'quoted' | 'quote_follow_up' | 'confirmed' | 'paid' | 'completed' | 'cancelled';
+export type BookingStatus = 'enquiry' | 'quoted' | 'quote_follow_up' | 'quote_lost' | 'confirmed' | 'paid' | 'completed' | 'cancelled';
 
 export type Booking = {
   id: string;

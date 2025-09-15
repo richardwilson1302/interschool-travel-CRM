@@ -6,6 +6,7 @@ const statusConfig = {
   enquiry: { label: 'Enquiries', color: 'bg-gray-500' },
   quoted: { label: 'Quoted', color: 'bg-blue-500' },
   quote_follow_up: { label: 'Quote Follow Up', color: 'bg-yellow-500' },
+  quote_lost: { label: 'Quote Lost', color: 'bg-red-500' },
   Provisional: { label: 'Provisional', color: 'bg-yellow-500' },
   Booked: { label: 'Booked', color: 'bg-green-500' },
   completed: { label: 'Completed', color: 'bg-emerald-600' },

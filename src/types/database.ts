@@ -42,7 +42,7 @@ export interface Database {
           id: string;
           school_id: string;
           trip_id: string;
-          status: 'enquiry' | 'quoted' | 'quote_follow_up' | 'confirmed' | 'paid' | 'completed' | 'cancelled';
+          status: 'enquiry' | 'quoted' | 'quote_follow_up' | 'quote_lost' | 'confirmed' | 'paid' | 'completed' | 'cancelled';
           participant_count: number;
           total_price: number;
           special_requirements?: string;
