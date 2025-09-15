@@ -188,7 +188,7 @@ export default function BookingsList() {
               <div className="flex items-center justify-between text-xs text-gray-400">
                 <span>Created {new Date(booking.created_at).toLocaleDateString()}</span>
                 {booking.trip?.departure_date && (
-                  <span>Departs {new Date(booking.trip.departure_date).toLocaleDateString()}</span>
+                  <span className="text-sm font-bold text-gray-600">Departs {new Date(booking.trip.departure_date).toLocaleDateString()}</span>
                 )}
               </div>
             </div>
