@@ -3,7 +3,7 @@ import { useData } from '../../contexts/DataContext';
 import { Calendar, Users, Phone, Mail, MapPin, Plus, Search, DollarSign, Edit } from 'lucide-react';
 import BookingForm from '../Forms/BookingForm';
 import EditBookingForm from '../Forms/EditBookingForm';
-import { statusColors } from '../../utils/constants';
+import { statusColors, statusLabels } from '../../utils/constants';
 import type { Booking } from '../../types';
 
 export default function BookingsList() {
@@ -68,12 +68,12 @@ export default function BookingsList() {
           className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         >
           <option value="all">All Statuses</option>
-          <option value="enquiry">Enquiry</option>
+          <option value="enquiry">Enquiries</option>
           <option value="quoted">Quoted</option>
           <option value="quote_follow_up">Quote Follow Up</option>
           <option value="quote_lost">Quote Lost</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="paid">Paid</option>
+          <option value="confirmed">Provisional</option>
+          <option value="paid">Booked</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
         </select>
@@ -120,7 +120,7 @@ export default function BookingsList() {
                 </div>
                 <div className="flex items-start space-x-2">
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[booking.status]}`}>
-                    {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+                    {statusLabels[booking.status]}
                   </span>
                 </div>
               </div>
